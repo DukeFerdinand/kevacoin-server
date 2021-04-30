@@ -2,6 +2,8 @@
 
 const chalk = require("chalk");
 const { spawn } = require("child_process");
+const path = require("path");
+
 require("dotenv").config();
 
 const DefaultConfig = {
@@ -25,8 +27,8 @@ const config = {
     port: process.env.KEVA_PORT,
     user: process.env.KEVA_USER,
     password: process.env.KEVA_PASSWORD,
-    quiet: process.env.KEVA_QUIET,
-    threads: process.env.KEVA_THREADS,
+    quiet: JSON.parse(process.env.KEVA_QUIET),
+    threads: JSON.parse(process.env.KEVA_THREADS),
   },
 };
 
@@ -48,19 +50,24 @@ console.info(`${Labels.Process} Starting kevacoind proccess`);
 console.info(`${Labels.Process} Using config - ${commandArgs.join(" ")}`);
 
 // Start formatted server
-// const child = spawn(command[0], [command[1]]);
+console.log(path.join(__dirname, "kevacoind"));
+const child = spawn(path.join(__dirname, "kevacoind"), commandArgs);
 
-// child.on("error", (e) => {
-//   console.error("error", e.message);
-// });
+child.on("error", (e) => {
+  console.error("error", e.message);
+});
 
-// // c is of type Buffer
-// child.stdout.on("data", (c) => {
-//   // Chunks might come through with multiple lines
-//   const content = c
-//     .toString("utf-8")
-//     .split("\n")
-//     .map((line) => `${Labels.Daemon} ${line}`)
-//     .join("\n");
-//   console.info(content);
-// });
+// c is of type Buffer
+child.stdout.on("data", (c) => {
+  // Chunks might come through with multiple lines
+  const content = c
+    .toString("utf-8")
+    .split("\n")
+    .map((line) => `${Labels.Daemon} ${line}`)
+    .join("\n");
+  console.info(content);
+});
+
+child.on("exit", (c) => {
+  console.log(c);
+});
