@@ -1,0 +1,5 @@
+# Build/lib data
+node_modules/
+
+# Potentially sensitive data
+.env

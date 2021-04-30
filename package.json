@@ -1,0 +1,24 @@
+{
+  "name": "kevacoin-server",
+  "version": "0.0.1",
+  "description": "A JavaScript wrapper for the kevacoin daemon",
+  "main": "server.js",
+  "repository": "github:DukeFerdinand/kevacoin-js",
+  "author": "Doug Flynn <DougFlynnDevelopment@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "dev": "nodemon --ignore dist --ext js,json --exec \"yarn start\"",
+    "start": "node server.js",
+    "prod": "pm2 start server.js"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.41",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "pm2": "^4.5.6"
+  }
+}
